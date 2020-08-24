@@ -1,6 +1,8 @@
 #!/bin/bash
 
-NUM_PROC=2
+export CUDA_VISIBLE_DEVICES=0
+
+NUM_PROC=1
 
 python -m torch.distributed.launch --nproc_per_node=$NUM_PROC train.py \
 imagenet/ \
