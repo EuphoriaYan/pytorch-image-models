@@ -25,3 +25,4 @@ imagenet/ \
 --amp \
 --lr .016 \
 --dist-bn reduce \
+--num-classes 20000 \

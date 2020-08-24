@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export CUDA_VISIBLE_DEVICES=0
+export CUDA_LAUNCH_BLOCKING=1
 
 NUM_PROC=1
 
@@ -15,3 +16,4 @@ imagenet/ \
 --reprob 0.4 \
 --remode pixel \
 -b 112 \
+--num-classes 20000 \

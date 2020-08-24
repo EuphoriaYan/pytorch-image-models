@@ -24,3 +24,4 @@ imagenet/ \
 --reprob 0.2 \
 --amp \
 --lr .016 \
+--num-classes 20000 \
