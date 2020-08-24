@@ -112,3 +112,6 @@ test.py
 
 # dataset
 imagenet/
+
+# output
+output/
