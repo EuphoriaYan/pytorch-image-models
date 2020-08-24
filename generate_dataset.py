@@ -6,6 +6,7 @@ import re
 import argparse
 from random import random
 from shutil import copy
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--src_dir', type=str, required=True)
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     checkDir(dst_dir)
 
     file_list = os.listdir(src_dir)
-    for f in file_list:
+    for f in tqdm(file_list):
         label = f.split('~')[0]
         checkDir(os.path.join(dst_dir, label))
         copy(os.path.join(src_dir, f), os.path.join(dst_dir, label))
