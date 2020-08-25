@@ -8,6 +8,7 @@ NUM_PROC=1
 python -m torch.distributed.launch --nproc_per_node=$NUM_PROC train.py \
 imagenet/ \
 --model efficientnet_b3a \
+--pretrained \
 -b 128 \
 --sched step \
 --epochs 200 \

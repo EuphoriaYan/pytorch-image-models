@@ -8,6 +8,7 @@ NUM_PROC=1
 python -m torch.distributed.launch --nproc_per_node=$NUM_PROC train.py \
 imagenet/ \
 --model resnetblur50 \
+--pretrained \
 --lr 0.1 \
 --warmup-epochs 5 \
 --epochs 200 \
