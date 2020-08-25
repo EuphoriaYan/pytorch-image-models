@@ -396,6 +396,7 @@ def main():
         _logger.error('Training folder does not exist at: {}'.format(train_dir))
         exit(1)
     dataset_train = Dataset(train_dir)
+    class_to_idx = dataset_train.class_to_idx
 
     collate_fn = None
     mixup_fn = None
@@ -452,6 +453,7 @@ def main():
             _logger.error('Validation folder does not exist at: {}'.format(eval_dir))
             exit(1)
     dataset_eval = Dataset(eval_dir)
+    dataset_eval.class_to_idx = class_to_idx
 
     loader_eval = create_loader(
         dataset_eval,

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export CUDA_VISIBLE_DEVICES=0
+export CUDA_LAUNCH_BLOCKING=1
+
 NUM_PROC=1
 
 python -m torch.distributed.launch --nproc_per_node=$NUM_PROC train.py \
