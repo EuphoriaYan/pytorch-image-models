@@ -9,6 +9,5 @@ imagenet/test/ \
 --checkpoint output/train/20200825-225519-resnetblur50-224/model_best.pth.tar \
 -b 112 \
 -j 8 \
---amp \
 --num-classes 20000 \
 --class-map vocab.txt \

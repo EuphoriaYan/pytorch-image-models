@@ -9,6 +9,5 @@ imagenet/test/ \
 --checkpoint output/train/20200827-162415-efficientnet_b2-260/model_best.pth.tar \
 -b 128 \
 -j 8 \
---amp \
 --num-classes 20000 \
 --class-map vocab.txt \
