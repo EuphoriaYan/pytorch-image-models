@@ -5,7 +5,7 @@ export CUDA_LAUNCH_BLOCKING=1
 
 python validate.py \
 imagenet/test/ \
---model efficientnet_b3a \
+--model efficientnet_b2 \
 --checkpoint output/train/20200827-162415-efficientnet_b2-260/model_best.pth.tar \
 -b 128 \
 -j 8 \
