@@ -18,3 +18,4 @@ imagenet/ \
 --remode pixel \
 -b 112 \
 --num-classes 20000 \
+--class_map vocab.txt \

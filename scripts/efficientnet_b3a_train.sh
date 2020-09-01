@@ -29,3 +29,4 @@ imagenet/ \
 --amp \
 --lr .016 \
 --num-classes 20000 \
+--class_map vocab.txt \

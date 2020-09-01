@@ -67,6 +67,8 @@ parser.add_argument('--no-resume-opt', action='store_true', default=False,
                     help='prevent resume of optimizer state when resuming model')
 parser.add_argument('--num-classes', type=int, default=1000, metavar='N',
                     help='number of label classes (default: 1000)')
+parser.add_argument('--class-map', default=None, type=str, metavar='FILENAME',
+                    help='path to class to idx mapping file (default: "")')
 parser.add_argument('--gp', default='avg', type=str, metavar='POOL',
                     help='Type of global pool, "avg", "max", "avgmax", "avgmaxc" (default: "avg")')
 parser.add_argument('--img-size', type=int, default=None, metavar='N',
@@ -395,7 +397,7 @@ def main():
     if not os.path.exists(train_dir):
         _logger.error('Training folder does not exist at: {}'.format(train_dir))
         exit(1)
-    dataset_train = Dataset(train_dir, class_map='vocab.txt')
+    dataset_train = Dataset(train_dir, class_map=args.class_map)
 
     collate_fn = None
     mixup_fn = None
@@ -451,7 +453,7 @@ def main():
         if not os.path.isdir(eval_dir):
             _logger.error('Validation folder does not exist at: {}'.format(eval_dir))
             exit(1)
-    dataset_eval = Dataset(eval_dir, class_map='vocab.txt')
+    dataset_eval = Dataset(eval_dir, class_map=args.class_map)
 
     loader_eval = create_loader(
         dataset_eval,
