@@ -30,4 +30,4 @@ imagenet/ \
 --lr .016 \
 --dist-bn reduce \
 --num-classes 20000 \
---class_map vocab.txt \
+--class-map vocab.txt \
