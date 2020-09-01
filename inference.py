@@ -12,6 +12,7 @@ import logging
 import numpy as np
 import torch
 
+from timm.data.dataset import load_class_map
 from timm.models import create_model, apply_test_time_pool
 from timm.data import Dataset, create_loader, resolve_data_config
 from timm.utils import AverageMeter, setup_default_logging
@@ -41,6 +42,8 @@ parser.add_argument('--interpolation', default='', type=str, metavar='NAME',
                     help='Image resize interpolation type (overrides model)')
 parser.add_argument('--num-classes', type=int, default=1000,
                     help='Number classes in dataset')
+parser.add_argument('--class-map', default='', type=str, metavar='FILENAME',
+                    help='path to class to idx mapping file (default: "")')
 parser.add_argument('--log-freq', default=10, type=int,
                     metavar='N', help='batch logging frequency (default: 10)')
 parser.add_argument('--checkpoint', default='', type=str, metavar='PATH',
@@ -81,7 +84,7 @@ def main():
         model = model.cuda()
 
     loader = create_loader(
-        Dataset(args.data),
+        Dataset(args.data, args.class_map),
         input_size=config['input_size'],
         batch_size=args.batch_size,
         use_prefetcher=True,
@@ -114,12 +117,21 @@ def main():
 
     topk_ids = np.concatenate(topk_ids, axis=0).squeeze()
 
+    class_to_idx = load_class_map(args.class_map, args.data)
+    idx_to_class = {v: k for k, v in class_to_idx.items()}
+
     with open(os.path.join(args.output_dir, './topk_ids.csv'), 'w') as out_file:
         filenames = loader.dataset.filenames()
         for filename, label in zip(filenames, topk_ids):
             filename = os.path.basename(filename)
             out_file.write('{0},{1},{2},{3},{4},{5}\n'.format(
-                filename, label[0], label[1], label[2], label[3], label[4]))
+                filename,
+                idx_to_class[label[0]],
+                idx_to_class[label[1]],
+                idx_to_class[label[2]],
+                idx_to_class[label[3]],
+                idx_to_class[label[4]])
+            )
 
 
 if __name__ == '__main__':
