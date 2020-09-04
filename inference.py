@@ -99,13 +99,17 @@ def main():
     k = min(args.topk, args.num_classes)
     batch_time = AverageMeter()
     end = time.time()
+    topk_probs = []
     topk_ids = []
     with torch.no_grad():
         for batch_idx, (input, _) in enumerate(loader):
             input = input.cuda()
             labels = model(input)
-            topk = labels.topk(k)[1]
-            topk_ids.append(topk.cpu().numpy())
+            topk = labels.topk(k)
+            topk_id = topk[1]
+            topk_prob = topk[0]
+            topk_ids.append(topk_id.cpu().numpy())
+            topk_probs.append(topk_prob.cpu().numpy())
 
             # measure elapsed time
             batch_time.update(time.time() - end)
@@ -116,22 +120,22 @@ def main():
                     batch_idx, len(loader), batch_time=batch_time))
 
     topk_ids = np.concatenate(topk_ids, axis=0).squeeze()
+    topk_probs = np.concatenate(topk_probs, axis=0).squeeze()
 
     class_to_idx = load_class_map(args.class_map, args.data)
     idx_to_class = {v: k for k, v in class_to_idx.items()}
 
     with open(os.path.join(args.output_dir, './topk_ids.csv'), 'w') as out_file:
         filenames = loader.dataset.filenames()
-        for filename, label in zip(filenames, topk_ids):
+        for filename, label, prob in zip(filenames, topk_ids, topk_probs):
             filename = os.path.basename(filename)
-            out_file.write('{0},{1},{2},{3},{4},{5}\n'.format(
-                filename,
-                idx_to_class[label[0]],
-                idx_to_class[label[1]],
-                idx_to_class[label[2]],
-                idx_to_class[label[3]],
-                idx_to_class[label[4]])
-            )
+            out_file.write('{0},'.format(filename))
+            for i in range(k):
+                out_file.write('{0},{1}'.format(idx_to_class[label[i]], prob[i]))
+                if i == k - 1:
+                    out_file.write('\n')
+                else:
+                    out_file.write(',')
 
 
 if __name__ == '__main__':
