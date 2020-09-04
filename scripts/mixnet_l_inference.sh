@@ -11,3 +11,4 @@ imagenet/test/ \
 -j 8 \
 --num-classes 20000 \
 --class-map vocab.txt \
+--topk 10 \
