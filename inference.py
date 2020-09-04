@@ -84,7 +84,7 @@ def main():
         model = model.cuda()
 
     loader = create_loader(
-        Dataset(args.data, args.class_map),
+        Dataset(args.data, class_map=args.class_map),
         input_size=config['input_size'],
         batch_size=args.batch_size,
         use_prefetcher=True,
