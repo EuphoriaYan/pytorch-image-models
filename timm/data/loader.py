@@ -138,7 +138,7 @@ def create_loader(
         re_split=False,
         scale=None,
         ratio=None,
-        hflip=0.5,
+        hflip=0.,
         vflip=0.,
         color_jitter=0.4,
         auto_augment=None,

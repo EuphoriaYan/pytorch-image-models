@@ -13,6 +13,7 @@ import re
 import torch
 import tarfile
 from PIL import Image
+import numpy as np
 
 
 IMG_EXTENSIONS = ['.png', '.jpg', '.jpeg']
@@ -85,6 +86,21 @@ class Dataset(data.Dataset):
     def __getitem__(self, index):
         path, target = self.samples[index]
         img = open(path, 'rb').read() if self.load_bytes else Image.open(path).convert('RGB')
+        '''
+        img = img.convert('1').convert('L')
+        img = np.array(img)
+        img = 255 - img
+        img = Image.fromarray(img)
+        bbox = img.getbbox()
+        if bbox is None:
+            raise ValueError
+        l, u, r, d = bbox
+        img = np.array(img)
+        img = img[u:d, l:r]
+        img = 255 - img
+        img = Image.fromarray(img)
+        img = img.convert('RGB')
+        '''
         if self.transform is not None:
             img = self.transform(img)
         if target is None:
