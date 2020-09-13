@@ -109,6 +109,7 @@ Testing notebook.ipynb
 
 # test
 test.py
+test*
 
 # dataset
 imagenet/
