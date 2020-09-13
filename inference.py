@@ -125,7 +125,7 @@ def main():
     class_to_idx = load_class_map(args.class_map, args.data)
     idx_to_class = {v: k for k, v in class_to_idx.items()}
 
-    with open(os.path.join(args.output_dir, './topk_ids.csv'), 'w') as out_file:
+    with open(os.path.join(args.output_dir, './topk_ids.csv'), 'w', encoding='utf-8') as out_file:
         filenames = loader.dataset.filenames()
         for filename, label, prob in zip(filenames, topk_ids, topk_probs):
             filename = os.path.basename(filename)
